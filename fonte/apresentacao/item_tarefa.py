@@ -75,7 +75,8 @@ class ItemTarefa(Frame):
         operacoes.excluir_tarefa(self._tarefa.id)
         self.destroy()
         
-
+    def destruir_item(self):
+        self.destroy()
 
     def alterar_tarefa(self, descr, data_prev):
 
@@ -102,7 +103,7 @@ class ItemTarefa(Frame):
 
         if self._app.ITEM_SELECIONADO == self:
             self._app.ITEM_SELECIONADO = None
-        self.destruir_tarefa()
+        self.destruir_item()
 
     def _ao_clicar(self, event):
         self._app.ITEM_SELECIONADO = self

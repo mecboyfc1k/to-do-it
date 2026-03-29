@@ -61,6 +61,7 @@ def marcar_tarefa(tarefa:Tarefa):
         BUFFER.add(operacoes_bd.alterar_tarefa, conn, tarefa.id, nova_concluida=True)
 
 
+
 def desmarcar_tarefa(tarefa:Tarefa):
     tarefa.desmarcar()
     with _criar_conexao() as conn:
@@ -76,16 +77,21 @@ def alterar_tarefa(tarefa:Tarefa, descr=None, data_prev=None):
 
 def recuperar_tarefas() -> list[Tarefa]:
 
-    conn=_criar_conexao()
+    with _criar_conexao() as conn:
 
-    if BUFFER.get(0):
-        BUFFER.esvaziar_buffer(conn)
+        if BUFFER.get(0):
+            BUFFER.esvaziar_buffer(conn)
 
-    resultados_consulta=operacoes_bd.consultar_tudo(conn, "Tarefas")
-    resultados=[]
+        resultados_consulta=operacoes_bd.consultar_tudo(conn, "Tarefas")
+        resultados=[]
 
     for resultado in resultados_consulta:
         excluir_tarefa(resultado[0])
+
+    with _criar_conexao() as conn:
+
+        if BUFFER.get(0):
+            BUFFER.esvaziar_buffer(conn)
 
     for i in range(len(resultados_consulta)):
         data_dt=datetime.strptime(resultados_consulta[i][2],"%Y-%m-%d")
@@ -101,6 +107,7 @@ def excluir_tarefa(id):
         BUFFER.add(operacoes_bd.excluir_tarefa, conn, id)
 
 def salvar_tarefas():
+
     with _criar_conexao() as conn:
         if BUFFER.get(0):
             BUFFER.esvaziar_buffer(conn)
