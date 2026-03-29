@@ -12,6 +12,8 @@ Ao baixar os arquivos, o mais adequado é que se crie um venv na raiz do projeto
 
 Se preferir, pode navegar até a raiz do projeto usando o comando "cd" e executar `python -m venv ./venv`
 
+Lembre-se de ativar o ambiente de acordo com o sistema utilizado.
+
 Após isso, para instalar as dependências, preferi usar um pyproject.toml ao invés de requirements.txt, mas caso prefira assim, deixarei os dois.
 
 Para instalar, basta executar `pip install -e .` na raiz do projeto, até prefiro assim para resolver as dependências de arquivos criados dentro do projeto mais facilmente.
