@@ -1,0 +1,4 @@
+aplicacao
+apresentacao
+dominio
+infraestrutura

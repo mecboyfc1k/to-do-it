@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: to-do-it
+Version: 0.0.1
+Requires-Dist: pytest
+Requires-Dist: tkcalendar
+Requires-Dist: pillow
