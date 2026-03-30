@@ -92,6 +92,7 @@ class ItemTarefa(Frame):
 
     def destruir_tarefa(self):
         operacoes.excluir_tarefa(self._tarefa.id)
+        self.resetar_selecao()
         self.destroy()
         
     def destruir_item(self):
