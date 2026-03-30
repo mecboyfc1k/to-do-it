@@ -1,5 +1,5 @@
 import pytest
-from infraestrutura.buffer import Buffer
+from fonte.infraestrutura.buffer import Buffer
 from fonte.dominio.excecoes import BufferVazio
 
 def test_buffer_vazio():

@@ -18,6 +18,9 @@ class App(Tk):
     PAINEL_BT_BG = cor.VERDE_LIMAO
     LISTA_BG_CR = cor.VERDE_LIMAO
     LISTA_IT_BG_CR = cor.VERDE_LIMAO
+    LISTA_IT_HV_CR = cor.VERDE_CHA_VERDE
+    LISTA_IT_CK_CR = cor.VERDE_EUCALIPTO
+    LISTA_IT_RL_CR = cor.VERDE_OLIVA
     POPUP_BG = cor.VERDE_EUCALIPTO
 
     ITEM_SELECIONADO=None
@@ -35,8 +38,8 @@ class App(Tk):
 
         BarraSuperior(self, App.BARRA_SUP_CR).inicializar()
 
-        l_e=ListaE(self, App.LISTA_BG_CR, App.LISTA_IT_BG_CR, self)
-        l_d=ListaD(self, App.LISTA_BG_CR, App.LISTA_IT_BG_CR, self)
+        l_e=ListaE(self, App.LISTA_BG_CR, App.LISTA_IT_BG_CR, self, hover_bg=App.LISTA_IT_HV_CR, cr_press=App.LISTA_IT_CK_CR, cr_release=App.LISTA_IT_RL_CR)
+        l_d=ListaD(self, App.LISTA_BG_CR, App.LISTA_IT_BG_CR, self, hover_bg=App.LISTA_IT_HV_CR, cr_press=App.LISTA_IT_CK_CR, cr_release=App.LISTA_IT_RL_CR)
 
         l_e.ligar_lista_vizinha(l_d)
         l_d.ligar_lista_vizinha(l_e)

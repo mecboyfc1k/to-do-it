@@ -12,11 +12,14 @@ class Lista(Frame):
     PADX=20
     PADY=20
 
-    def __init__(self, master, bg, it_bg, app):
+    def __init__(self, master, bg, it_bg, app, hover_bg="", cr_press="", cr_release=""):
         super().__init__(master)
         self.configure(bg=bg, width=self.master.winfo_width()//2-Lista.PADX*2, height=Lista.H, padx=0, pady=0)
         self.pack_propagate(False)
         self._it_bg = it_bg
+        self._hover_bg=hover_bg
+        self._cr_press = cr_press
+        self._cr_release = cr_release
 
         self.canvas = Canvas(self, bg=bg, highlightthickness=0)
         self.canvas.pack(fill="both", expand=True, side="left")
@@ -53,10 +56,9 @@ class Lista(Frame):
 
     def adicionar_item(self, descr=None, data_prev=None, tarefa:Tarefa=None, marcado=False):
         if not tarefa:
-            ItemTarefa(self.scrollabe_frame, self._app, self._it_bg, self._lista_vizinha, marcado).criar_tarefa(descr, data_prev)
+            ItemTarefa(self.scrollabe_frame, self._app, self._it_bg, self._lista_vizinha, marcado=marcado, hover_bg=self._hover_bg, cr_press=self._cr_press, cr_release=self._cr_release).criar_tarefa(descr, data_prev)
         else:
-            ItemTarefa(self.scrollabe_frame, self._app, self._it_bg, self._lista_vizinha, marcado).criar_tarefa(tarefa=tarefa)
-
+            ItemTarefa(self.scrollabe_frame, self._app, self._it_bg, self._lista_vizinha, marcado=marcado, hover_bg=self._hover_bg, cr_press=self._cr_press, cr_release=self._cr_release).criar_tarefa(tarefa=tarefa)
     def alterar_item(self, descr, data_prev):
         self._app.ITEM_SELECIONADO.alterar_tarefa(descr, data_prev)
 
@@ -65,8 +67,8 @@ class Lista(Frame):
 
 class ListaE(Lista):
 
-    def __init__(self, master, bg, it_bg, app):
-        super().__init__(master,bg, it_bg, app)
+    def __init__(self, master, bg, it_bg, app, hover_bg="", cr_press="", cr_release=""):
+        super().__init__(master,bg, it_bg, app, hover_bg=hover_bg, cr_press=cr_press, cr_release=cr_release)
 
     def inicializar(self):
         self.pack(anchor="w", side="left", fill="y", expand=True, padx=Lista.PADX, pady=Lista.PADY)
@@ -75,8 +77,8 @@ class ListaE(Lista):
 
 class ListaD(Lista):
 
-    def __init__(self, master, bg, it_bg, app):
-        super().__init__(master, bg, it_bg, app)
+    def __init__(self, master, bg, it_bg, app, hover_bg="", cr_press="", cr_release=""):
+        super().__init__(master, bg, it_bg, app, hover_bg=hover_bg, cr_press=cr_press, cr_release=cr_release)
 
     def inicializar(self):
         self.pack(anchor="e", side="right", fill="y", expand=True, padx=Lista.PADX, pady=Lista.PADY)

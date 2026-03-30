@@ -10,12 +10,15 @@ from fonte.dominio.tarefa import Tarefa
 
 class ItemTarefa(Frame):
 
-    H=50
+    H=30
     PADX = 2
     PADY=2
 
-    def __init__(self, master, app, bg, l_2, marcado=False):
+    def __init__(self, master, app, bg, l_2, hover_bg="", marcado=False, cr_press = "", cr_release = ""):
         super().__init__(master=master)
+        self.pack_propagate(False)
+        self.grid_propagate(False)
+
         self._bg_cr=bg
 
         if marcado:
@@ -25,9 +28,18 @@ class ItemTarefa(Frame):
 
         self._lista_vizinha = l_2
 
-        self.bind("<Button-1>", self._ao_clicar)
+        self.bind("<Button-1>", self._ao_clicar, "+")
+        self.bind("<ButtonRelease-1>", self._ao_desclicar, "+")
+        self.bind("<Enter>", self._on_enter, "+")
+        self.bind("<Leave>", self._on_leave, "+")
 
         self._app=app
+        self._selecionado=False
+        self._hover_ativo=False
+        self._hover_bg = hover_bg
+        self._bg = bg
+        self._cr_press = cr_press
+        self._cr_release = cr_release
 
 
     def criar_tarefa(self, descr = None, data_prev = None, tarefa:Tarefa = None):
@@ -37,9 +49,13 @@ class ItemTarefa(Frame):
             self._tarefa = tarefa
 
         self.configure(bg=self._bg_cr, height=ItemTarefa.H, width=20)
+        self.pack_propagate(False)
 
-        self._descr_label = Label(self,text=self._tarefa.descr, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg="black", bg=self["bg"])
-        self._descr_label.bind("<Button-1>", self._ao_clicar)
+        self._descr_label = Label(self,text=self._tarefa.descr, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg="black", bg=self["bg"], height=1)
+        self._descr_label.bind("<Button-1>", self._ao_clicar,"+")
+        self._descr_label.bind("<ButtonRelease-1>", self._ao_desclicar, "+")
+        self._descr_label.bind("<Enter>", self._on_enter, "+")
+        self._descr_label.bind("<Leave>", self._on_leave, "+")
         data = str(self._tarefa.data_prev)
 
         if self._tarefa.atrasada:
@@ -47,7 +63,10 @@ class ItemTarefa(Frame):
         else:
             self._data_label=Label(self,text=data, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg="black", bg=self["bg"])
 
-        self._data_label.bind("<Button-1>", self._ao_clicar)
+        self._data_label.bind("<Button-1>", self._ao_clicar, "+")
+        self._data_label.bind("<ButtonRelease-1>", self._ao_desclicar, "+")
+        self._data_label.bind("<Enter>", self._on_enter, "+")
+        self._data_label.bind("<Leave>", self._on_leave, "+")
 
         path_marcado = Path("fonte/apresentacao/recursos/botoes/check.png").absolute()
         path_desmarcado = Path("fonte/apresentacao/recursos/botoes/uncheck.png").absolute()
@@ -59,9 +78,9 @@ class ItemTarefa(Frame):
         self._desmarcado_ic = ImageTk.PhotoImage(self._desmarcado_ic)
 
 
-        marcador = Checkbutton(self, command=self._marcacao_tarefa, indicatoron=0, image=self._desmarcado_ic, selectimage=self._marcado_ic, selectcolor=self["bg"], borderwidth=0, relief="flat", bg=self["bg"], highlightthickness=0,variable=self._tarefa_concluida,offvalue=0, onvalue=1)
+        self._marcador = Checkbutton(self, command=self._marcacao_tarefa, indicatoron=0, image=self._desmarcado_ic, selectimage=self._marcado_ic, selectcolor=self["bg"], borderwidth=0, relief="flat", bg=self["bg"], highlightthickness=0,variable=self._tarefa_concluida,offvalue=0, onvalue=1)
 
-        marcador.grid(column=0, row=0)
+        self._marcador.grid(column=0, row=0)
         self._descr_label.grid(column=1, row=0)
         self._data_label.grid(column=2, row=0)
 
@@ -90,6 +109,7 @@ class ItemTarefa(Frame):
             self._data_label.configure(text=data, fg="black")
 
         self._descr_label.configure(text=self._tarefa.descr)
+        self.resetar_selecao()
 
 
     def _marcacao_tarefa(self):
@@ -102,15 +122,51 @@ class ItemTarefa(Frame):
             operacoes.desmarcar_tarefa(self._tarefa)
 
         if self._app.ITEM_SELECIONADO == self:
+            self.resetar_selecao()
             self._app.ITEM_SELECIONADO = None
         self.destruir_item()
 
     def _ao_clicar(self, event):
-        self._app.ITEM_SELECIONADO = self
-        print(self._app.ITEM_SELECIONADO)
+        if self._app.ITEM_SELECIONADO != self:
+            self.configure(bg=self._cr_press)
+            self._data_label.configure(bg=self._cr_press)
+            self._descr_label.configure(bg=self._cr_press)
+            self._marcador.configure(bg=self._cr_press, selectcolor=self._cr_press)
+            if self._app.ITEM_SELECIONADO:
+                self._app.ITEM_SELECIONADO.resetar_selecao()
+
+    def _ao_desclicar(self, event):
+        if self._app.ITEM_SELECIONADO != self:
+            self.configure(bg=self._cr_release)
+            self._data_label.configure(bg=self._cr_release)
+            self._descr_label.configure(bg=self._cr_release)
+            self._marcador.configure(bg=self._cr_release, selectcolor=self._cr_release)
+            self._app.ITEM_SELECIONADO = self
+            self._selecionado=True
 
     def get_descr(self):
         return self._tarefa.descr
     
     def get_data_prev(self):
         return self._tarefa.data_prev
+    
+    def _on_enter(self, event):
+        if not(self._selecionado) and self._hover_bg:
+            self.configure(bg=self._hover_bg)
+            self._data_label.configure(bg=self._hover_bg)
+            self._descr_label.configure(bg=self._hover_bg)
+            self._marcador.configure(bg=self._hover_bg, selectcolor=self._hover_bg)
+
+    def _on_leave(self, event):
+        if not(self._selecionado):
+            self.configure(bg=self._bg)
+            self._data_label.configure(bg=self._bg)
+            self._descr_label.configure(bg=self._bg)
+            self._marcador.configure(bg=self._bg, selectcolor=self._bg)
+
+    def resetar_selecao(self):
+        self._selecionado=False
+        self.configure(bg=self._bg_cr)
+        self._data_label.configure(bg=self._bg_cr)
+        self._descr_label.configure(bg=self._bg_cr)
+        self._marcador.configure(bg=self._bg_cr, selectcolor=self._bg_cr)
