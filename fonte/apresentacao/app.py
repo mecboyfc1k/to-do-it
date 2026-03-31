@@ -15,6 +15,8 @@ class App(Tk):
     BARRA_SUP_CR = cor.VERDE_EUCALIPTO
     BG_CR = cor.VERDE_CHA_VERDE
     BOTAO_CR1 = cor.AZUL_HORTENSIA
+    BOTAO_CR1_HV = cor.AZUL_ACO
+    BOTAO_CR1_CK = cor.AZUL_VIBRANTE
     PAINEL_BT_BG = cor.VERDE_LIMAO
     LISTA_BG_CR = cor.VERDE_LIMAO
     LISTA_IT_BG_CR = cor.VERDE_LIMAO
@@ -22,6 +24,7 @@ class App(Tk):
     LISTA_IT_CK_CR = cor.VERDE_EUCALIPTO
     LISTA_IT_RL_CR = cor.VERDE_OLIVA
     POPUP_BG = cor.VERDE_EUCALIPTO
+
 
     ITEM_SELECIONADO=None
 
@@ -58,7 +61,7 @@ class App(Tk):
                 (App.BOTAO_CR1, icon_bt_alt, self._criar_popup_alterar, (App.POPUP_BG, 400, 150, 20, 20, l_e, self)),
                 (App.BOTAO_CR1, icon_bt_exc, self._criar_popup_excluir, (App.POPUP_BG, 400, 250, 20, 20, l_e, self)))
 
-        PainelBotoes(self, 50, 10, App.PAINEL_BT_BG, 100, *botoes).inicializar()
+        PainelBotoes(self, 50, 10, App.PAINEL_BT_BG, 100, *botoes, bt_ck_cr=App.BOTAO_CR1_CK, bt_hv_cr=App.BOTAO_CR1_HV).inicializar()
 
         l_e.inicializar()
         l_d.inicializar()

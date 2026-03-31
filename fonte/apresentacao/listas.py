@@ -54,13 +54,17 @@ class Lista(Frame):
     def _ao_redimensionar(self, event):
         self.configure(width=self.master.winfo_width()//2-Lista.PADX*2)
 
+
     def adicionar_item(self, descr=None, data_prev=None, tarefa:Tarefa=None, marcado=False):
         if not tarefa:
             ItemTarefa(self.scrollabe_frame, self._app, self._it_bg, self._lista_vizinha, marcado=marcado, hover_bg=self._hover_bg, cr_press=self._cr_press, cr_release=self._cr_release).criar_tarefa(descr, data_prev)
         else:
             ItemTarefa(self.scrollabe_frame, self._app, self._it_bg, self._lista_vizinha, marcado=marcado, hover_bg=self._hover_bg, cr_press=self._cr_press, cr_release=self._cr_release).criar_tarefa(tarefa=tarefa)
+
+
     def alterar_item(self, descr, data_prev):
         self._app.ITEM_SELECIONADO.alterar_tarefa(descr, data_prev)
+
 
     def excluir_item(self):
         self._app.ITEM_SELECIONADO.destruir_tarefa()

@@ -51,7 +51,13 @@ class ItemTarefa(Frame):
         self.configure(bg=self._bg_cr, height=ItemTarefa.H, width=20)
         self.pack_propagate(False)
 
-        self._descr_label = Label(self,text=self._tarefa.descr, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg="black", bg=self["bg"], height=1)
+        if self._tarefa.concluida:
+            self._descr_label = Label(self,text=self._tarefa.descr, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg="gray", bg=self["bg"], height=1)
+
+        else:
+
+            self._descr_label = Label(self,text=self._tarefa.descr, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg="black", bg=self["bg"], height=1)
+
         self._descr_label.bind("<Button-1>", self._ao_clicar,"+")
         self._descr_label.bind("<ButtonRelease-1>", self._ao_desclicar, "+")
         self._descr_label.bind("<Enter>", self._on_enter, "+")
@@ -60,6 +66,8 @@ class ItemTarefa(Frame):
 
         if self._tarefa.atrasada:
             self._data_label=Label(self,text=data, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg="red", bg=self["bg"])
+        elif self._tarefa.concluida:
+            self._data_label=Label(self,text=data, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg="gray", bg=self["bg"])
         else:
             self._data_label=Label(self,text=data, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg="black", bg=self["bg"])
 
@@ -84,7 +92,6 @@ class ItemTarefa(Frame):
         self._descr_label.grid(column=1, row=0)
         self._data_label.grid(column=2, row=0)
 
-        self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=8)
         self.columnconfigure(2, weight=2)
 
@@ -116,11 +123,13 @@ class ItemTarefa(Frame):
     def _marcacao_tarefa(self):
 
         if self._tarefa_concluida.get()==1:
-            self._lista_vizinha.adicionar_item(tarefa=self._tarefa, marcado=True)
             operacoes.marcar_tarefa(self._tarefa)
+            self._lista_vizinha.adicionar_item(tarefa=self._tarefa, marcado=True)
+            
         else:
-            self._lista_vizinha.adicionar_item(tarefa=self._tarefa, marcado=False)
             operacoes.desmarcar_tarefa(self._tarefa)
+            self._lista_vizinha.adicionar_item(tarefa=self._tarefa, marcado=False)
+            
 
         if self._app.ITEM_SELECIONADO == self:
             self.resetar_selecao()

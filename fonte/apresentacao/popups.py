@@ -5,7 +5,8 @@ from tkcalendar import DateEntry
 from fonte.apresentacao.listas import *
 from PIL import Image, ImageTk
 from pathlib import Path
-from datetime import date
+from fonte.dominio.excecoes import DescrInvalida
+from datetime import date 
 
 class PopUpCriar(Toplevel):
 
@@ -42,7 +43,11 @@ class PopUpCriar(Toplevel):
     def _criar(self):
         descr=self._campos[0].get()
         data_prev=self._campos[1].get_date()
-        self._lista.adicionar_item(descr, data_prev)
+        try:
+            self._lista.adicionar_item(descr, data_prev)
+        except DescrInvalida:
+            pass
+
         self._campos[0].delete(0, END)
         self._campos[1].set_date(date.today())
 
