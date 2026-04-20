@@ -12,14 +12,19 @@ class Lista(Frame):
     PADX=20
     PADY=20
 
-    def __init__(self, master, bg, it_bg, app, hover_bg="", cr_press="", cr_release=""):
+    def __init__(self, master, bg, it_bg, app, hover_bg="", cr_press="", cr_release="", contorno=None, it_txt_cr = None, it_txt_cr_ck = None, it_txt_cr_hv = None, it_txt_cr_concluido = None):
         super().__init__(master)
-        self.configure(bg=bg, width=self.master.winfo_width()//2-Lista.PADX*2, height=Lista.H, padx=0, pady=0)
+        self.configure(bg=bg, width=self.master.winfo_width()//2-Lista.PADX*2, height=Lista.H, padx=0, pady=0, highlightthickness=2 if contorno else 0, highlightbackground=contorno if contorno else "")
         self.pack_propagate(False)
         self._it_bg = it_bg
         self._hover_bg=hover_bg
         self._cr_press = cr_press
         self._cr_release = cr_release
+
+        self._it_txt_cr = it_txt_cr
+        self._it_txt_cr_ck = it_txt_cr_ck
+        self._it_txt_cr_hv = it_txt_cr_hv
+        self._it_txt_cr_concluido = it_txt_cr_concluido
 
         self.canvas = Canvas(self, bg=bg, highlightthickness=0)
         self.canvas.pack(fill="both", expand=True, side="left")
@@ -57,9 +62,9 @@ class Lista(Frame):
 
     def adicionar_item(self, descr=None, data_prev=None, tarefa:Tarefa=None, marcado=False):
         if not tarefa:
-            ItemTarefa(self.scrollabe_frame, self._app, self._it_bg, self._lista_vizinha, marcado=marcado, hover_bg=self._hover_bg, cr_press=self._cr_press, cr_release=self._cr_release).criar_tarefa(descr, data_prev)
+            ItemTarefa(self.scrollabe_frame, self._app, self._it_bg, self._lista_vizinha, marcado=marcado, hover_bg=self._hover_bg, cr_press=self._cr_press, cr_release=self._cr_release, it_txt_cr=self._it_txt_cr, it_txt_cr_ck=self._it_txt_cr_ck, it_txt_cr_hv=self._it_txt_cr_hv, it_txt_cr_concluido=self._it_txt_cr_concluido).criar_tarefa(descr, data_prev)
         else:
-            ItemTarefa(self.scrollabe_frame, self._app, self._it_bg, self._lista_vizinha, marcado=marcado, hover_bg=self._hover_bg, cr_press=self._cr_press, cr_release=self._cr_release).criar_tarefa(tarefa=tarefa)
+            ItemTarefa(self.scrollabe_frame, self._app, self._it_bg, self._lista_vizinha, marcado=marcado, hover_bg=self._hover_bg, cr_press=self._cr_press, cr_release=self._cr_release, it_txt_cr=self._it_txt_cr, it_txt_cr_ck=self._it_txt_cr_ck, it_txt_cr_hv=self._it_txt_cr_hv, it_txt_cr_concluido=self._it_txt_cr_concluido).criar_tarefa(tarefa=tarefa)
 
 
     def alterar_item(self, descr, data_prev):
@@ -71,8 +76,8 @@ class Lista(Frame):
 
 class ListaE(Lista):
 
-    def __init__(self, master, bg, it_bg, app, hover_bg="", cr_press="", cr_release=""):
-        super().__init__(master,bg, it_bg, app, hover_bg=hover_bg, cr_press=cr_press, cr_release=cr_release)
+    def __init__(self, master, bg, it_bg, app, hover_bg="", cr_press="", cr_release="", contorno=None, it_txt_cr = None, it_txt_cr_ck = None, it_txt_cr_hv = None, it_txt_cr_concluido = None):
+        super().__init__(master,bg, it_bg, app, hover_bg=hover_bg, cr_press=cr_press, cr_release=cr_release, contorno=contorno, it_txt_cr=it_txt_cr, it_txt_cr_ck=it_txt_cr_ck, it_txt_cr_hv=it_txt_cr_hv, it_txt_cr_concluido=it_txt_cr_concluido)
 
     def inicializar(self):
         self.pack(anchor="w", side="left", fill="y", expand=True, padx=Lista.PADX, pady=Lista.PADY)
@@ -81,8 +86,8 @@ class ListaE(Lista):
 
 class ListaD(Lista):
 
-    def __init__(self, master, bg, it_bg, app, hover_bg="", cr_press="", cr_release=""):
-        super().__init__(master, bg, it_bg, app, hover_bg=hover_bg, cr_press=cr_press, cr_release=cr_release)
+    def __init__(self, master, bg, it_bg, app, hover_bg="", cr_press="", cr_release="", contorno=None, it_txt_cr = None, it_txt_cr_ck = None, it_txt_cr_hv = None, it_txt_cr_concluido = None):
+        super().__init__(master, bg, it_bg, app, hover_bg=hover_bg, cr_press=cr_press, cr_release=cr_release, contorno=contorno, it_txt_cr=it_txt_cr, it_txt_cr_ck=it_txt_cr_ck, it_txt_cr_hv=it_txt_cr_hv, it_txt_cr_concluido=it_txt_cr_concluido)
 
     def inicializar(self):
         self.pack(anchor="e", side="right", fill="y", expand=True, padx=Lista.PADX, pady=Lista.PADY)

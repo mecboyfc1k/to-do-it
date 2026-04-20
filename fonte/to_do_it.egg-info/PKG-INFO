@@ -4,3 +4,4 @@ Version: 0.0.1
 Requires-Dist: pytest
 Requires-Dist: tkcalendar
 Requires-Dist: pillow
+Requires-Dist: tkinter
