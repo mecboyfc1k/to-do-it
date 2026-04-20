@@ -1,14 +1,25 @@
 class Cores(enumerate):
-    VERDE_EUCALIPTO = "#6DA67A"
-    VERDE_OLIVA     = "#99A66D"
-    VERDE_PISTACHE  = "#A9BD68"
-    VERDE_CHA_VERDE = "#B5CC6A"
-    VERDE_LIMAO     = "#C0DE5D"
-    AZUL_NOITE      = "#1B263B"
-    AZUL_PETROLEO   = "#0E4D64"
-    AZUL_VIBRANTE   = "#2E5BFF"
-    AZUL_ACO        = "#4682B4"
-    AZUL_HORTENSIA  = "#6D83A6"
-    AZUL_MARINHO    = "#002366"
-    AZUL_CIANO_ESCURO = "#008B8B"
-    AZUL_ARDOSIA    = "#483D8B"
+    # --- FUNDAMENTOS (DARK MODE) ---
+    CINZA_DRACULA    = "#121214"  # Background profundo
+    CINZA_SUPERFICIE = "#1E1E22"  # Cards / Itens da lista
+    CINZA_BORDA      = "#2D2D35"  # Divisores suaves
+    CINZA_ELEVACAO   = "#32323D"  # Hover em elementos pequenos
+    
+    # --- TEXTOS ---
+    BRANCO_GELO      = "#F8F9FA"  # Texto principal (Alta leitura)
+    CINZA_CLARO      = "#E0E0E6"  # Texto secundário
+    CINZA_PRATA      = "#A0A0B0"  # Placeholders e datas
+    CINZA_CONCLUIDO  = "#62626C"  # Estado desativado / Feito
+
+    # --- IDENTIDADE (ROXOS) ---
+    ROXO_VIBRANTE    = "#9D56FF"  # Primária: Ações de criação
+    ROXO_PROFUNDO    = "#6B3CC9"  # Hover primário
+    ROXO_ARDOSIA     = "#483D8B"  # Seleção / Ativo
+    ROXO_SUAVE       = "#B19CD9"  # Destaques sutis / Tags
+    ROXO_GHOST       = "#2A1B4D"  # Fundo de itens selecionados (baixa opacidade)
+
+    # --- FEEDBACK DE UX (ESSENCIAL) ---
+    SUCESSO          = "#00C853"  # Conclusão de tarefa / Mensagem positiva
+    ALERTA           = "#FFD600"  # Tarefas que vencem hoje
+    ERRO             = "#FF5252"  # Prazos vencidos / Excluir tarefa
+    INFO             = "#00B0FF"  # Dicas ou informações de uso

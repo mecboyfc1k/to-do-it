@@ -12,18 +12,28 @@ from fonte.dominio.tarefa import Tarefa
 
 class App(Tk):
 
-    BARRA_SUP_CR = cor.VERDE_EUCALIPTO
-    BG_CR = cor.VERDE_CHA_VERDE
-    BOTAO_CR1 = cor.AZUL_HORTENSIA
-    BOTAO_CR1_HV = cor.AZUL_ACO
-    BOTAO_CR1_CK = cor.AZUL_VIBRANTE
-    PAINEL_BT_BG = cor.VERDE_LIMAO
-    LISTA_BG_CR = cor.VERDE_LIMAO
-    LISTA_IT_BG_CR = cor.VERDE_LIMAO
-    LISTA_IT_HV_CR = cor.VERDE_CHA_VERDE
-    LISTA_IT_CK_CR = cor.VERDE_EUCALIPTO
-    LISTA_IT_RL_CR = cor.VERDE_OLIVA
-    POPUP_BG = cor.VERDE_EUCALIPTO
+    BARRA_SUP_CR               = cor.CINZA_DRACULA
+    BARRA_SUP_CNT              = cor.CINZA_BORDA
+    BG_CR                      = cor.CINZA_DRACULA
+
+    BOTAO_CR1                  = cor.ROXO_VIBRANTE
+    BOTAO_CR1_HV               = cor.ROXO_PROFUNDO
+    BOTAO_CR1_CK               = cor.ROXO_ARDOSIA
+
+    PAINEL_BT_BG               = cor.CINZA_DRACULA
+
+    LISTA_BG_CR                = cor.CINZA_DRACULA
+    LISTA_IT_BG_CR             = cor.CINZA_SUPERFICIE
+    LISTA_IT_HV_CR             = cor.CINZA_ELEVACAO
+    LISTA_IT_CK_CR             = cor.CINZA_BORDA
+    LISTA_IT_RL_CR             = cor.ROXO_VIBRANTE
+
+    LISTA_IT_TXT_CR            = cor.BRANCO_GELO
+    LISTA_IT_TXT_CR_HV         = cor.ROXO_SUAVE
+    LISTA_IT_TXT_CR_CK         = cor.BRANCO_GELO
+    LISTA_IT_TXT_CR_CONCLUIDO  = cor.CINZA_CONCLUIDO
+
+    POPUP_BG                   = cor.CINZA_SUPERFICIE
 
 
     ITEM_SELECIONADO=None
@@ -39,10 +49,10 @@ class App(Tk):
 
         operacoes.inicializar_bd()
 
-        BarraSuperior(self, App.BARRA_SUP_CR).inicializar()
+        BarraSuperior(self, App.BARRA_SUP_CR, App.BARRA_SUP_CNT).inicializar()
 
-        l_e=ListaE(self, App.LISTA_BG_CR, App.LISTA_IT_BG_CR, self, hover_bg=App.LISTA_IT_HV_CR, cr_press=App.LISTA_IT_CK_CR, cr_release=App.LISTA_IT_RL_CR)
-        l_d=ListaD(self, App.LISTA_BG_CR, App.LISTA_IT_BG_CR, self, hover_bg=App.LISTA_IT_HV_CR, cr_press=App.LISTA_IT_CK_CR, cr_release=App.LISTA_IT_RL_CR)
+        l_e=ListaE(self, App.LISTA_BG_CR, App.LISTA_IT_BG_CR, self, hover_bg=App.LISTA_IT_HV_CR, cr_press=App.LISTA_IT_CK_CR, cr_release=App.LISTA_IT_RL_CR, contorno=cor.CINZA_BORDA, it_txt_cr=App.LISTA_IT_TXT_CR, it_txt_cr_hv=App.LISTA_IT_TXT_CR_HV, it_txt_cr_ck=App.LISTA_IT_TXT_CR_CK, it_txt_cr_concluido=App.LISTA_IT_TXT_CR_CONCLUIDO)
+        l_d=ListaD(self, App.LISTA_BG_CR, App.LISTA_IT_BG_CR, self, hover_bg=App.LISTA_IT_HV_CR, cr_press=App.LISTA_IT_CK_CR, cr_release=App.LISTA_IT_RL_CR, contorno=cor.CINZA_BORDA, it_txt_cr=App.LISTA_IT_TXT_CR, it_txt_cr_hv=App.LISTA_IT_TXT_CR_HV, it_txt_cr_ck=App.LISTA_IT_TXT_CR_CK, it_txt_cr_concluido=App.LISTA_IT_TXT_CR_CONCLUIDO)
 
         l_e.ligar_lista_vizinha(l_d)
         l_d.ligar_lista_vizinha(l_e)

@@ -14,7 +14,7 @@ class ItemTarefa(Frame):
     PADX = 2
     PADY=2
 
-    def __init__(self, master, app, bg, l_2, hover_bg="", marcado=False, cr_press = "", cr_release = ""):
+    def __init__(self, master, app, bg, l_2, hover_bg="", marcado=False, cr_press = "", cr_release = "", it_txt_cr = None, it_txt_cr_ck = None, it_txt_cr_hv = None, it_txt_cr_concluido = None):
         super().__init__(master=master)
         self.pack_propagate(False)
         self.grid_propagate(False)
@@ -27,6 +27,10 @@ class ItemTarefa(Frame):
             self._tarefa_concluida=IntVar(value=0)
 
         self._lista_vizinha = l_2
+        self._it_txt_cr_concluido = it_txt_cr_concluido
+        self._it_txt_cr = it_txt_cr
+        self._it_txt_cr_ck = it_txt_cr_ck
+        self._it_txt_cr_hv = it_txt_cr_hv
 
         self.bind("<Button-1>", self._ao_clicar, "+")
         self.bind("<ButtonRelease-1>", self._ao_desclicar, "+")
@@ -52,11 +56,11 @@ class ItemTarefa(Frame):
         self.pack_propagate(False)
 
         if self._tarefa.concluida:
-            self._descr_label = Label(self,text=self._tarefa.descr, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg="gray", bg=self["bg"], height=1)
+            self._descr_label = Label(self,text=self._tarefa.descr, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg=self._it_txt_cr_concluido, bg=self["bg"], height=1)
 
         else:
 
-            self._descr_label = Label(self,text=self._tarefa.descr, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg="black", bg=self["bg"], height=1)
+            self._descr_label = Label(self,text=self._tarefa.descr, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg=self._it_txt_cr, bg=self["bg"], height=1)
 
         self._descr_label.bind("<Button-1>", self._ao_clicar,"+")
         self._descr_label.bind("<ButtonRelease-1>", self._ao_desclicar, "+")
@@ -67,9 +71,9 @@ class ItemTarefa(Frame):
         if self._tarefa.atrasada:
             self._data_label=Label(self,text=data, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg="red", bg=self["bg"])
         elif self._tarefa.concluida:
-            self._data_label=Label(self,text=data, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg="gray", bg=self["bg"])
+            self._data_label=Label(self,text=data, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg=self._it_txt_cr_concluido, bg=self["bg"])
         else:
-            self._data_label=Label(self,text=data, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg="black", bg=self["bg"])
+            self._data_label=Label(self,text=data, font=font.Font(family=Fontes.ITENS_LISTA[0], size=Fontes.ITENS_LISTA[1]), fg=self._it_txt_cr, bg=self["bg"])
 
         self._data_label.bind("<Button-1>", self._ao_clicar, "+")
         self._data_label.bind("<ButtonRelease-1>", self._ao_desclicar, "+")
@@ -139,8 +143,8 @@ class ItemTarefa(Frame):
     def _ao_clicar(self, event):
         if self._app.ITEM_SELECIONADO != self:
             self.configure(bg=self._cr_press)
-            self._data_label.configure(bg=self._cr_press)
-            self._descr_label.configure(bg=self._cr_press)
+            self._data_label.configure(bg=self._cr_press, fg=self._it_txt_cr_ck if self._tarefa_concluida.get()==0 else self._it_txt_cr_ck)
+            self._descr_label.configure(bg=self._cr_press, fg=self._it_txt_cr_ck if self._tarefa_concluida.get()==0 else self._it_txt_cr_ck)
             self._marcador.configure(bg=self._cr_press, selectcolor=self._cr_press)
             if self._app.ITEM_SELECIONADO:
                 self._app.ITEM_SELECIONADO.resetar_selecao()
@@ -148,8 +152,8 @@ class ItemTarefa(Frame):
     def _ao_desclicar(self, event):
         if self._app.ITEM_SELECIONADO != self:
             self.configure(bg=self._cr_release)
-            self._data_label.configure(bg=self._cr_release)
-            self._descr_label.configure(bg=self._cr_release)
+            self._data_label.configure(bg=self._cr_release, fg=self._it_txt_cr if self._tarefa_concluida.get()==0 else self._it_txt_cr_concluido)
+            self._descr_label.configure(bg=self._cr_release, fg=self._it_txt_cr if self._tarefa_concluida.get()==0 else self._it_txt_cr_concluido)
             self._marcador.configure(bg=self._cr_release, selectcolor=self._cr_release)
             self._app.ITEM_SELECIONADO = self
             self._selecionado=True
@@ -163,15 +167,15 @@ class ItemTarefa(Frame):
     def _on_enter(self, event):
         if not(self._selecionado) and self._hover_bg:
             self.configure(bg=self._hover_bg)
-            self._data_label.configure(bg=self._hover_bg)
-            self._descr_label.configure(bg=self._hover_bg)
+            self._data_label.configure(bg=self._hover_bg, fg=self._it_txt_cr_hv if self._tarefa_concluida.get()==0 else self._it_txt_cr_hv)
+            self._descr_label.configure(bg=self._hover_bg, fg=self._it_txt_cr_hv if self._tarefa_concluida.get()==0 else self._it_txt_cr_hv)
             self._marcador.configure(bg=self._hover_bg, selectcolor=self._hover_bg)
 
     def _on_leave(self, event):
         if not(self._selecionado):
             self.configure(bg=self._bg)
-            self._data_label.configure(bg=self._bg)
-            self._descr_label.configure(bg=self._bg)
+            self._data_label.configure(bg=self._bg, fg=self._it_txt_cr if self._tarefa_concluida.get()==0 else self._it_txt_cr_concluido)
+            self._descr_label.configure(bg=self._bg, fg=self._it_txt_cr if self._tarefa_concluida.get()==0 else self._it_txt_cr_concluido)
             self._marcador.configure(bg=self._bg, selectcolor=self._bg)
 
     def resetar_selecao(self):
